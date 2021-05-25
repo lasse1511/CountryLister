@@ -9,3 +9,4 @@ RUN pip install clickhouse-driver
 RUN pip install -U prettytable
 RUN pip install -U pycountry
 RUN pip install -U click
+RUN pip install -U requests
