@@ -7,3 +7,4 @@ How to run:
    (it should automatically download the ClickHouse server image, if not run following command: docker pull yandex/clickhouse-server)
    
 2) 
+ 
