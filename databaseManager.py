@@ -28,10 +28,11 @@ class databaseManager:
         # country api endpoint
         URL = "https://restcountries.eu/rest/v2/all"
 
-        # getting json object with list of all countries
+        # getting json object (name and alpha3Code) with list of all countries
         countries_df = pd.DataFrame.from_records(requests.get(url=URL).json()).filter(["name", "alpha3Code"], axis=1)
 
         # Adds id column equal to element index
         countries_df["id"] = countries_df.index + 1
 
+        # Inserts values into database
         self.client.execute("INSERT INTO countries (id, name, alpha3Code) VALUES", countries_df.to_dict('records'))
