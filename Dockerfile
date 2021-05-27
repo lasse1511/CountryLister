@@ -10,3 +10,4 @@ RUN pip install -U prettytable
 RUN pip install -U pycountry
 RUN pip install -U click
 RUN pip install -U requests
+RUN pip install -U infi.clickhouse_orm

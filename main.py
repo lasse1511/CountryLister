@@ -1,10 +1,13 @@
 import argparse as ap
 import pandas as pd
 import databaseManager as db
+import databaseManagerORM as dbORM
 import prettytable
 from io import StringIO
 import pycountry
 import click 
+
+from models.countries import Countries
 
 # Passing command line arguments
 @click.command()
@@ -14,12 +17,18 @@ def main(sort_order):
     sort_order = sort_order.lower()
     if (not sort_order in ['asc', 'desc']):
         raise ValueError("Please enter a valid value for sort_order --- Valid option are (CI): \"asc\" or \"desc\"")
-
+    elif (sort_order == 'asc'):
+        sort_order = ''
+    else:
+        sort_order = '-'
     # Connection, migration and seeding to db
-    dbManager = db.databaseManager()
+    dbManager = dbORM.databaseManagerORM()
 
     # Select data from table countries and load into pandas dataframe
-    countries_df = pd.DataFrame.from_records(dbManager.client.execute("SELECT name, alpha3Code FROM countries ORDER BY name {}".format(sort_order)))
+    queryRows = []
+    for row in Countries.objects_in(dbManager.db).order_by(sort_order + 'name'):
+        queryRows.append([row.name, row.alpha3Code])
+    countries_df = pd.DataFrame.from_records(queryRows)
 
     #Convert column ISO3 to ISO2 format
     countries_df[1] = countries_df[1].apply(convert_ISO3_to_ISO2)
