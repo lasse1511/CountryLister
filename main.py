@@ -1,6 +1,5 @@
 import argparse as ap
 import pandas as pd
-import databaseManager as db
 import databaseManagerORM as dbORM
 import prettytable
 from io import StringIO
@@ -21,6 +20,7 @@ def main(sort_order):
         sort_order = ''
     else:
         sort_order = '-'
+        
     # Connection, migration and seeding to db
     dbManager = dbORM.databaseManagerORM()
 
