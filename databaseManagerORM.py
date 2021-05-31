@@ -15,4 +15,4 @@ class databaseManagerORM:
 
     # Executes seed function from models
     def seed(self, db):
-        Countries.seed(self, db)
+        Countries.seed(Countries, self.db)

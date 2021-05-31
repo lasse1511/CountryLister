@@ -36,5 +36,5 @@ class Countries(Model):
                 ])          
 
     # Generates UUID from country name and alpha3Code to ensure each country has unique identifier
-    def generateUUID(self, inputRow):
+    def generateUUID(inputRow):
         return str(uuid.uuid3(uuid.NAMESPACE_DNS, inputRow["name"] + "##" + inputRow["alpha3Code"]))
