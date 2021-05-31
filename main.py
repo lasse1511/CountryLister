@@ -10,12 +10,14 @@ from models.countries import Countries
 
 # Passing command line arguments
 @click.command()
-@click.option("--sort-order", default='asc', help="The sort order of the list of countries.")
+@click.option("--sort-order", help="The sort order of the list of countries.")
 def main(sort_order):
     # Checks the value of sort_order in order to avoid malicious attempts
+    if (sort_order == None):
+        sort_order = input("No sort order specified. Please enter a sort order (valid option are (CI): \"asc\" or \"desc\"): ")
     sort_order = sort_order.lower()
     if (not sort_order in ['asc', 'desc']):
-        raise ValueError("Please enter a valid value for sort_order --- Valid option are (CI): \"asc\" or \"desc\"")
+        raise ValueError("Please enter a valid value for sort_order. Valid option are (CI): \"asc\" or \"desc\"")
     elif (sort_order == 'asc'):
         sort_order = ''
     else:

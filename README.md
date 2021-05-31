@@ -13,7 +13,7 @@ How to run:
    
    docker build -t country-lister .
 
-3) Run the app using the newly build docker image with following command (sort-order argument is optional):
+3) Run the app using the newly build docker image with following command:
 
    docker run --network="host" -it country-lister main.py --sort-order asc
 
