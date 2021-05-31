@@ -23,12 +23,18 @@ class Countries(Model):
             # Getting json object (name and alpha3Code) with list of all countries
             countries_df = pd.DataFrame.from_records(requests.get(url=URL).json()).filter(["name", "alpha3Code"], axis=1)      
 
+            # Adds UUID as id
+            countries_df["id"] = countries_df.apply(self.generateUUID, axis=1) 
+
             # Split country list into batches of 50 and inserts batch wise // Might be fixed by turning the maximum allowed partiions up, but this might affect performance
             for i in range(math.ceil(len(countries_df)/50)):
                 countries_df_partial = countries_df[i*50:(i+1)*50]
                 db.insert([
-                    # Generates UUID from country name and alpha3Code to ensure each country has unique identifier 
                     # Duplicate UUIDs are deleted async after insertion
-                    Countries(id=str(uuid.uuid3(uuid.NAMESPACE_DNS, name+"##"+alpha3Code)), name=name, alpha3Code=alpha3Code)
-                    for name, alpha3Code in countries_df_partial.values
+                    Countries(id=id, name=name, alpha3Code=alpha3Code)
+                    for name, alpha3Code, id in countries_df_partial.values
                 ])          
+
+    # Generates UUID from country name and alpha3Code to ensure each country has unique identifier
+    def generateUUID(self, inputRow):
+        return str(uuid.uuid3(uuid.NAMESPACE_DNS, inputRow["name"] + "##" + inputRow["alpha3Code"]))
