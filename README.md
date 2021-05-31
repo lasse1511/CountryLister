@@ -9,11 +9,15 @@ How to run:
    (it should automatically download the ClickHouse server image, if not run following command: docker pull yandex/clickhouse-server)
 
 
-2) Build the app docker image with following command:
+2) CD til app directory (der hvor main.py ligger)
+
+
+3) Build the app docker image with following command:
    
    docker build -t country-lister .
 
-3) Run the app using the newly build docker image with following command:
+
+4) Run the app using the newly build docker image with following command:
 
    docker run --network="host" -it country-lister main.py
 
